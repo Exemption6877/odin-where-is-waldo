@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 function Greeting() {
   return (
     <div>
-      <button>Start Game!</button>
+      <Link to="/choice">Start Game!</Link>
     </div>
   );
 }
