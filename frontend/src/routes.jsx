@@ -1,6 +1,7 @@
 import App from "./App";
 import GameboardChoice from "./components/Gameboard/GameboardChoice";
 import Greeting from "./components/Greeting";
+import Gameboard from "./components/Gameboard/Gameboard";
 
 const routes = [
   {
@@ -9,6 +10,7 @@ const routes = [
     children: [
       { index: true, element: <Greeting /> },
       { path: "choice", element: <GameboardChoice /> },
+      { path: "game/:gameId", element: <Gameboard /> },
     ],
   },
 ];

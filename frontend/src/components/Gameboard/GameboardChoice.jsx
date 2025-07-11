@@ -6,7 +6,7 @@ function GameboardChoice() {
   return (
     <ul>
       <li>
-        <Link>Gameboard 1</Link>
+        <Link to="/game/1">Gameboard 1</Link>
       </li>
       <li>
         <Link>Gameboard 2</Link>
