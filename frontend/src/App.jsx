@@ -1,8 +1,17 @@
+import Nav from "./components/Layout/Nav";
+import Footer from "./components/Layout/Footer";
+
 function App() {
   return (
-    <div>
-      <p>Where's Waldo?</p>
-    </div>
+    <>
+      <Nav />
+      <main>
+        <div>
+          <p>A Photo Tagging Game</p>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }
 
