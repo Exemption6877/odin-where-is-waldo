@@ -11,6 +11,9 @@
   --btn-pd-height: 0.5rem;
   --btn-pd-width: 1rem;
   --btn-mg: 1rem;
+  --obj-gap: 1rem;
+  --obj-pd: 2rem;
+  --obj-mg: 1rem;
 }
 
 html,
