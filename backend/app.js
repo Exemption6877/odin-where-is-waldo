@@ -6,6 +6,10 @@ const PORT = process.env.SERVER_PORT || 2000;
 
 const app = express();
 
+const adminRouter = require("./routers/adminRouter");
+
+app.use("/admin", adminRouter);
+
 app.listen(PORT, () => {
   console.log(`API is live at PORT: ${PORT}`);
 });
