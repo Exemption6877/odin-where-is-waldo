@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import GameObjectives from "./GameObjectives";
 import SendScore from "./SendScore";
 import Mouse from "../Mouse/Mouse";
+import styles from "./Gameboard.module.css";
 
 function Gameboard() {
   const { gameId } = useParams();
@@ -68,7 +69,7 @@ function Gameboard() {
   // map for each...
 
   return (
-    <div>
+    <div className={styles.gameboardWrapper}>
       <h1>Gameboard {gameId}</h1>
       {showMenu && <Mouse position={mousePos} />}
       <GameObjectives objectives={objectives} />
