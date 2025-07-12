@@ -1,6 +1,7 @@
 .popupContainer {
   display: flex;
   flex-direction: row;
+  position: absolute;
 }
 
 .circle {

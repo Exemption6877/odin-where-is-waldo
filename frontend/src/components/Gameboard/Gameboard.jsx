@@ -6,6 +6,8 @@ import Mouse from "../Mouse/Mouse";
 
 function Gameboard() {
   const { gameId } = useParams();
+  const [showMenu, setShowMenu] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: null, y: null });
 
   const [gameFinished, setGameFinished] = useState(false);
 
@@ -16,13 +18,17 @@ function Gameboard() {
 
   const getCoordinates = (e) => {
     const targetElem = e.target.getBoundingClientRect();
-    const userInput = [e.clientX - targetElem.left, e.clientY - targetElem.top];
+    // const userInput = [e.clientX - targetElem.left, e.clientY - targetElem.top];
+    const userInput = [
+      e.clientX - targetElem.left + window.scrollX,
+      e.clientY - targetElem.top + window.scrollY,
+    ];
+    setShowMenu(true);
+    setMousePos({ x: userInput[0], y: userInput[1] });
 
     objectives.forEach((objective) => {
       if (checkHit(userInput, objective.coordinates)) objective.found = true;
     });
-
-    console.log(checkHit(userInput, objectives[0].coordinates));
   };
 
   const checkHit = (userInput, objectiveCoordinates) => {
@@ -64,7 +70,7 @@ function Gameboard() {
   return (
     <div>
       <h1>Gameboard {gameId}</h1>
-      <Mouse />
+      {showMenu && <Mouse position={mousePos} />}
       <GameObjectives objectives={objectives} />
       <img
         onClick={getCoordinates}
