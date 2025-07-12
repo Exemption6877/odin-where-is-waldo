@@ -1,0 +1,15 @@
+.popupContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.circle {
+  border-radius: 50%;
+  border: 10px brown solid;
+  height: 100px;
+  width: 100px;
+}
+.choiceList {
+  display: flex;
+  flex-direction: column;
+}

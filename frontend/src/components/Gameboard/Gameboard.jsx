@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import GameObjectives from "./GameObjectives";
 import SendScore from "./SendScore";
+import Mouse from "../Mouse/Mouse";
 
 function Gameboard() {
   const { gameId } = useParams();
@@ -63,6 +64,7 @@ function Gameboard() {
   return (
     <div>
       <h1>Gameboard {gameId}</h1>
+      <Mouse />
       <GameObjectives objectives={objectives} />
       <img
         onClick={getCoordinates}
