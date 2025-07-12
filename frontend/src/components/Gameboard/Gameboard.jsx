@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import GameObjectives from "./GameObjectives";
 import SendScore from "./SendScore";
@@ -71,6 +71,14 @@ function Gameboard() {
     },
   ]);
   // map for each...
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowMenu(false);
+    };
+
+    window.addEventListener("wheel", handleScroll);
+  }, []);
 
   return (
     <div className={styles.gameboardWrapper}>
