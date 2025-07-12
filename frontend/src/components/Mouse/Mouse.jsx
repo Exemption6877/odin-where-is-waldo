@@ -7,7 +7,6 @@ function Mouse({ position }) {
       style={{
         left: position.x,
         top: position.y,
-        transform: "translate(-50%, -50%)",
       }}
     >
       <div className={styles.circle}></div>

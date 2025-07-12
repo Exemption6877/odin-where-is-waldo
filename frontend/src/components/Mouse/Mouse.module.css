@@ -1,7 +1,8 @@
 .popupContainer {
   display: flex;
   flex-direction: row;
-  position: absolute;
+  position: fixed;
+  transform: translate(-25%, -45%);
 }
 
 .circle {

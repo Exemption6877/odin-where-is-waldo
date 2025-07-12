@@ -19,13 +19,17 @@ function Gameboard() {
 
   const getCoordinates = (e) => {
     const targetElem = e.target.getBoundingClientRect();
-    // const userInput = [e.clientX - targetElem.left, e.clientY - targetElem.top];
     const userInput = [
-      e.clientX - targetElem.left + window.scrollX,
-      e.clientY - targetElem.top + window.scrollY,
+      (e.clientX - targetElem.left) / targetElem.width,
+      (e.clientY - targetElem.top) / targetElem.height,
     ];
+
     setShowMenu(true);
-    setMousePos({ x: userInput[0], y: userInput[1] });
+    setMousePos({
+      x: e.clientX,
+      y: e.clientY,
+    });
+    console.log(userInput);
 
     objectives.forEach((objective) => {
       if (checkHit(userInput, objective.coordinates)) objective.found = true;
