@@ -3,6 +3,10 @@ datasource db {
     url = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model Score {
     id Int @id @default(autoincrement())
     time DateTime
@@ -34,3 +38,4 @@ model Objective{
     gameboard Gameboard @relation(fields: [gameboardId], references: [id])
     gameboardId Int
 }
+
