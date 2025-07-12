@@ -15,6 +15,7 @@ model Gameboard {
     id Int @id @default(autoincrement())
     title String
     image String
+    preview String
     author String
     source String
     scores Score[]
