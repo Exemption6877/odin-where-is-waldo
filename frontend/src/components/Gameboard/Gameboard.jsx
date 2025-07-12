@@ -1,20 +1,24 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import GameObjectives from "./GameObjectives";
+import SendScore from "./SendScore";
 
 function Gameboard() {
   const { gameId } = useParams();
-  const [coordinates, setCoordinates] = useState([]);
+
+  const [gameFinished, setGameFinished] = useState(false);
+
+  const endGame = () => {
+    // Some logic to tell API to stop timer.
+    // API checks for all found images then returns something that stops the game and sets state.
+  };
 
   const getCoordinates = (e) => {
     const targetElem = e.target.getBoundingClientRect();
     const userInput = [e.clientX - targetElem.left, e.clientY - targetElem.top];
 
-    setCoordinates(userInput);
-
     objectives.forEach((objective) => {
       if (checkHit(userInput, objective.coordinates)) objective.found = true;
-      console.log(objectives);
     });
 
     console.log(checkHit(userInput, objectives[0].coordinates));
@@ -30,6 +34,8 @@ function Gameboard() {
   };
 
   // object's coords are 4 points
+  // I will implement server check on hits
+  // Coordinates will not be sent in this object, as its status, only index, name, image
   const [objectives, setObjectives] = useState([
     {
       index: 0,

@@ -6,7 +6,7 @@ import Gameboard from "./components/Gameboard/Gameboard";
 const routes = [
   {
     path: "/",
-    component: <App />,
+    element: <App />,
     children: [
       { index: true, element: <Greeting /> },
       { path: "choice", element: <GameboardChoice /> },
