@@ -6,6 +6,7 @@ datasource db {
 model Score {
     id Int @id @default(autoincrement())
     time DateTime
+    createdAt DateTime @default(now())
     username  String 
     gameboard Gameboard @relation(fields: [gameboardId], references: [id])
     gameboardId Int
