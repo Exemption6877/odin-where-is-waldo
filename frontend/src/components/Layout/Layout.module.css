@@ -1,0 +1,31 @@
+.navContainer,
+.footerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--layout-bg);
+  color: var(--layout-text-color);
+  padding: var(--layout-padding);
+}
+
+.navContainer {
+  margin-bottom: var(--layout-margin);
+}
+
+.navContainer,
+.navContainer > ul > li > a {
+  color: var(--layout-text-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navContainer > ul {
+  display: flex;
+  gap: var(--list-gap);
+  list-style: none;
+}
+
+.footerContainer {
+  margin-top: var(--layout-margin);
+  font-weight: 600;
+}

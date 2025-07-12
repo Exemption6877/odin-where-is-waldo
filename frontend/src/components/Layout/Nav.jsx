@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
+import styles from "./Layout.module.css";
 
 function Nav() {
   return (
-    <nav>
+    <nav className={styles.navContainer}>
       <h2>A Photo Tagging Game</h2>
       <ul>
         <li>
-          <p>Home</p>
-        </li>
-        <li>
-          <Link to="choice">Choose level</Link>
+          <Link to="/">Home</Link>
         </li>
       </ul>
     </nav>
