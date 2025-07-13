@@ -19,6 +19,8 @@ model Score {
 model Gameboard {
     id Int @id @default(autoincrement())
     title String
+    img_filepath String
+    prev_filepath String
     image String
     preview String
     author String

@@ -22,6 +22,7 @@ adminRouter.post(
 );
 
 adminRouter.put("/gameboard/:gameboardId", adminController.putGameboard);
+adminRouter.delete("/gameboard/:gameboardId", adminController.deleteGameboard);
 
 // put gameboard for changes
 

@@ -22,13 +22,15 @@ async function countObjectivesGameboard(gameboardId) {
 
 async function addGameboard(gameboard) {
   try {
-    await prisma.gameboard.create({
+    return await prisma.gameboard.create({
       data: {
         title: gameboard.title,
         image: gameboard.image,
         preview: gameboard.preview,
         author: gameboard.author,
         source: gameboard.source,
+        img_filepath: gameboard.img_filepath,
+        prev_filepath: gameboard.prev_filepath,
       },
     });
   } catch (err) {
@@ -39,7 +41,7 @@ async function addGameboard(gameboard) {
 
 async function addObjective(objective) {
   try {
-    await prisma.objective.create({
+    return await prisma.objective.create({
       data: {
         title: objective.title,
         image: objective.image,
@@ -66,11 +68,31 @@ async function updateGameboard(gameboard) {
         preview: gameboard.preview,
         author: gameboard.author,
         source: gameboard.source,
+        img_filepath: gameboard.img_filepath,
+        prev_filepath: gameboard.prev_filepath,
       },
     });
   } catch (err) {
     console.error(err);
     throw new Error("Database: Failed to update gameboard.");
+  }
+}
+
+async function deleteGameboard(gameboardId) {
+  try {
+    await prisma.gameboard.delete({ where: { id: gameboardId } });
+  } catch (err) {
+    console.error(err);
+    throw new Error("Database: Failed to delete gameboard.");
+  }
+}
+
+async function deleteObjectives(gameboardId) {
+  try {
+    await prisma.objective.deleteMany({ where: { gameboardId: gameboardId } });
+  } catch (err) {
+    console.error(err);
+    throw new Error("Database: Failed to delete objectives.");
   }
 }
 
@@ -80,4 +102,6 @@ module.exports = {
   addGameboard,
   addObjective,
   updateGameboard,
+  deleteGameboard,
+  deleteObjectives,
 };

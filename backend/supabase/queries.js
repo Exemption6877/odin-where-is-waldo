@@ -24,4 +24,12 @@ async function getPublicUrl(filename, bucket) {
   return data.publicUrl;
 }
 
-module.exports = { uploadFile, getPublicUrl };
+async function deleteFile(filename, bucket) {
+  const { error } = await supabase.storage.from(bucket).remove(filename);
+  if (error) {
+    console.error("Upload failed:", error);
+    throw error;
+  }
+}
+
+module.exports = { uploadFile, getPublicUrl, deleteFile };

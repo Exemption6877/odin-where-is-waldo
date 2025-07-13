@@ -30,11 +30,13 @@ async function postUploadGameboard(req, res) {
       source,
       image: gameboardURL,
       preview: previewURL,
+      img_filepath: gameboardPath,
+      prev_filepath: previewPath,
     };
 
-    await db.admin.addGameboard(gameboardData);
+    const result = await db.admin.addGameboard(gameboardData);
 
-    res.status(200).json({ message: "Gameboard added successfully." });
+    res.status(200).json(result);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Could not add new gameboard." });
@@ -43,7 +45,15 @@ async function postUploadGameboard(req, res) {
 
 async function putGameboard(req, res) {
   try {
-    const { title, author, source, image, preview } = req.body;
+    const {
+      title,
+      img_filepath,
+      prev_filepath,
+      author,
+      source,
+      image,
+      preview,
+    } = req.body;
     const gameboardId = Number(req.params.gameboardId);
     const prevData = await db.gameboard.getById(gameboardId);
 
@@ -60,21 +70,47 @@ async function putGameboard(req, res) {
       source: source || prevData.source,
       image: image || prevData.image,
       preview: preview || prevData.preview,
+      img_filepath: img_filepath || prevData.filepath,
+      prev_filepath: prev_filepath || prevData.prev_filepath,
     };
 
     const result = await db.admin.updateGameboard(updatedData);
 
-    res.status(200).json({ result });
+    res.status(200).json(result);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Could not change gameboard." });
   }
 }
 
+async function deleteGameboard(req, res) {
+  try {
+    const gameboardId = Number(req.params.gameboardId);
+    const prevData = await db.gameboard.getById(gameboardId);
+
+    if (!prevData) {
+      return res.status(404).json({ message: "Gameboard not found." });
+    }
+
+    const prevObjectives = await db.objective.getAllByGameboardId(gameboardId);
+    const prevObjTitles = prevObjectives.map((objective) => objective.title);
+
+    await db.admin.deleteObjectives(gameboardId);
+    await db.admin.deleteGameboard(gameboardId);
+    await supabase.deleteFile(prevObjTitles, "objectives");
+    await supabase.deleteFile(prevData.img_filepath, "gameboards");
+    await supabase.deleteFile(prevData.prev_filepath, "previews");
+
+    res.status(200).json({ message: "Gameboard deleted successfully." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Could not delete gameboard." });
+  }
+}
+
 async function postUploadObjective(req, res) {
   try {
     // JS sucks
-    const title = req.body.title;
     const topLeftX = Number(req.body.topLeftX);
     const topLeftY = Number(req.body.topLeftY);
     const bottomRightX = Number(req.body.bottomRightX);
@@ -94,7 +130,7 @@ async function postUploadObjective(req, res) {
     const imageURL = await supabase.getPublicUrl(imagePath, "objectives");
 
     const objectiveData = {
-      title,
+      title: imagePath,
       topLeftX,
       topLeftY,
       bottomRightX,
@@ -103,13 +139,18 @@ async function postUploadObjective(req, res) {
       image: imageURL,
     };
 
-    await db.admin.addObjective(objectiveData);
+    const result = await db.admin.addObjective(objectiveData);
 
-    res.status(200).json({ message: "Objective added successfully." });
+    res.status(200).json(result);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Could not add new objective." });
   }
 }
 
-module.exports = { postUploadGameboard, postUploadObjective, putGameboard };
+module.exports = {
+  postUploadGameboard,
+  postUploadObjective,
+  putGameboard,
+  deleteGameboard,
+};
