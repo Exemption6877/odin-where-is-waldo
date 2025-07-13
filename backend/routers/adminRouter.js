@@ -5,9 +5,11 @@ const upload = multer({ storage: multer.memoryStorage() });
 const adminController = require("../controllers/adminController");
 const adminRouter = Router();
 
+const checkAdmin = require("../middleware/checkAdmin");
+
 adminRouter.post(
   "/gameboard",
-
+  checkAdmin,
   upload.fields([
     { name: "gameboard", maxCount: 1 },
     { name: "preview", maxCount: 1 },
@@ -17,12 +19,21 @@ adminRouter.post(
 
 adminRouter.post(
   "/gameboard/:gameboardId/objective",
+  checkAdmin,
   upload.single("objective"),
   adminController.postUploadObjective
 );
 
-adminRouter.put("/gameboard/:gameboardId", adminController.putGameboard);
-adminRouter.delete("/gameboard/:gameboardId", adminController.deleteGameboard);
+adminRouter.put(
+  "/gameboard/:gameboardId",
+  checkAdmin,
+  adminController.putGameboard
+);
+adminRouter.delete(
+  "/gameboard/:gameboardId",
+  checkAdmin,
+  adminController.deleteGameboard
+);
 
 // DELETE, PUT for objectives
 adminRouter.put(
@@ -30,7 +41,8 @@ adminRouter.put(
   adminController.putObjective
 );
 adminRouter.delete(
-  "/gameboard/:gameboardId/objective/:objectiveId",
+  "/objective/:objectiveId",
+  checkAdmin,
   adminController.deleteObjective
 );
 

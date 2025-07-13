@@ -194,6 +194,7 @@ async function deleteObjective(req, res) {
       return res.status(404).json({ message: "Objective not found." });
     }
 
+    await supabase.deleteFile(prevData.title, "objectives");
     await db.admin.deleteObjective(objectiveId);
     res.status(200).json({ message: "Objective deleted successfully." });
   } catch (err) {
