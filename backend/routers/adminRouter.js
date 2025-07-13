@@ -15,6 +15,10 @@ adminRouter.post(
   adminController.postUploadGameboard
 );
 
-// adminRouter.post("/objective", upload.single("objective"));
+adminRouter.post(
+  "/gameboard/:gameboardId/objective",
+  upload.single("objective"),
+  adminController.postUploadObjective
+);
 
 module.exports = adminRouter;

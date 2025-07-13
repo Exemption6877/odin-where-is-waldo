@@ -9,6 +9,17 @@ async function countGameboards() {
   }
 }
 
+async function countObjectivesGameboard(gameboardId) {
+  try {
+    return await prisma.objective.count({
+      where: { gameboardId },
+    });
+  } catch (err) {
+    console.error(err);
+    throw new Error("Database: Failed to fetch objectives");
+  }
+}
+
 async function addGameboard(gameboard) {
   try {
     await prisma.gameboard.create({
@@ -26,4 +37,28 @@ async function addGameboard(gameboard) {
   }
 }
 
-module.exports = { countGameboards, addGameboard };
+async function addObjective(objective) {
+  try {
+    await prisma.objective.create({
+      data: {
+        title: objective.title,
+        image: objective.image,
+        topLeftX: objective.topLeftX,
+        topLeftY: objective.topLeftY,
+        bottomRightX: objective.bottomRightX,
+        bottomRightY: objective.bottomRightY,
+        gameboardId: objective.gameboardId,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw new Error("Database: Failed to add new objective.");
+  }
+}
+
+module.exports = {
+  countGameboards,
+  countObjectivesGameboard,
+  addGameboard,
+  addObjective,
+};

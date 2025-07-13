@@ -25,20 +25,61 @@ async function postUploadGameboard(req, res) {
     const previewURL = await supabase.getPublicUrl(previewPath, "previews");
 
     const gameboardData = {
-      title: title,
+      title,
+      author,
+      source,
       image: gameboardURL,
       preview: previewURL,
-      author: author,
-      source: source,
     };
 
     await db.admin.addGameboard(gameboardData);
 
-    res.status(200).json({ message: "Files uploaded successfully." });
+    res.status(200).json({ message: "Gameboard added successfully." });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Could not add new gameboard." });
   }
 }
 
-module.exports = { postUploadGameboard };
+async function postUploadObjective(req, res) {
+  try {
+    // JS sucks
+    const title = req.body.title;
+    const topLeftX = Number(req.body.topLeftX);
+    const topLeftY = Number(req.body.topLeftY);
+    const bottomRightX = Number(req.body.bottomRightX);
+    const bottomRightY = Number(req.body.bottomRightY);
+
+    const gameboardId = Number(req.params.gameboardId);
+    const image = req.file;
+
+    const nextObjectiveId =
+      (await db.admin.countObjectivesGameboard(gameboardId)) + 1;
+
+    const imagePath =
+      `obj_${gameboardId}_${nextObjectiveId}` +
+      path.extname(image.originalname);
+
+    await supabase.uploadFile(imagePath, image.buffer, "objectives");
+    const imageURL = await supabase.getPublicUrl(imagePath, "objectives");
+
+    const objectiveData = {
+      title,
+      topLeftX,
+      topLeftY,
+      bottomRightX,
+      bottomRightY,
+      gameboardId,
+      image: imageURL,
+    };
+
+    await db.admin.addObjective(objectiveData);
+
+    res.status(200).json({ message: "Objective added successfully." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Could not add new objective." });
+  }
+}
+
+module.exports = { postUploadGameboard, postUploadObjective };
