@@ -96,6 +96,34 @@ async function deleteObjectives(gameboardId) {
   }
 }
 
+async function updateObjective(objective) {
+  try {
+    return await prisma.objective.update({
+      where: { id: objective.id },
+      data: {
+        title: objective.title,
+        image: objective.image,
+        topLeftX: objective.topLeftX,
+        topLeftY: objective.topLeftY,
+        bottomRightX: objective.bottomRightX,
+        bottomRightY: objective.bottomRightY,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw new Error("Database: Failed to update objective.");
+  }
+}
+
+async function deleteObjective(objectiveId) {
+  try {
+    await prisma.objective.delete({ where: { id: objectiveId } });
+  } catch (err) {
+    console.error(err);
+    throw new Error("Database: Failed to delete objective.");
+  }
+}
+
 module.exports = {
   countGameboards,
   countObjectivesGameboard,
@@ -104,4 +132,6 @@ module.exports = {
   updateGameboard,
   deleteGameboard,
   deleteObjectives,
+  updateObjective,
+  deleteObjective,
 };

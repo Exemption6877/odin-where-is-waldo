@@ -61,8 +61,6 @@ async function putGameboard(req, res) {
       return res.status(404).json({ message: "Gameboard not found." });
     }
 
-    console.log(prevData);
-
     const updatedData = {
       id: gameboardId,
       title: title || prevData.title,
@@ -148,9 +146,67 @@ async function postUploadObjective(req, res) {
   }
 }
 
+async function putObjective(req, res) {
+  try {
+    const {
+      title,
+      image,
+      topLeftX,
+      topLeftY,
+      bottomRightX,
+      bottomRightY,
+      gameboardId,
+    } = req.body;
+
+    const objectiveId = Number(req.params.objectiveId);
+
+    const prevData = await db.objective.getById(objectiveId);
+
+    if (!prevData) {
+      return res.status(404).json({ message: "Objective not found." });
+    }
+
+    const updatedData = {
+      title: title || prevData.title,
+      image: image || prevData.image,
+      topLeftX: topLeftX || prevData.topLeftX,
+      topLeftY: topLeftY || prevData.topLeftY,
+      bottomRightX: bottomRightX || prevData.bottomRightX,
+      bottomRightY: bottomRightY || prevData.bottomRightY,
+      gameboardId: gameboardId || prevData.gameboardId,
+    };
+
+    const result = await db.admin.updateObjective(updatedData);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Could not update objective." });
+  }
+}
+
+async function deleteObjective(req, res) {
+  try {
+    const objectiveId = Number(req.params.objectiveId);
+
+    const prevData = await db.objective.getById(objectiveId);
+
+    if (!prevData) {
+      return res.status(404).json({ message: "Objective not found." });
+    }
+
+    await db.admin.deleteObjective(objectiveId);
+    res.status(200).json({ message: "Objective deleted successfully." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Could not delete objective." });
+  }
+}
+
 module.exports = {
   postUploadGameboard,
   postUploadObjective,
   putGameboard,
   deleteGameboard,
+  putObjective,
+  deleteObjective,
 };

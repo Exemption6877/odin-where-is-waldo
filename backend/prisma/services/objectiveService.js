@@ -7,8 +7,17 @@ async function getAllByGameboardId(gameboardId) {
     });
   } catch (err) {
     console.error(err);
-    throw new Error("Database: Failed to fetch gameboard.");
+    throw new Error("Database: Failed to fetch objectives.");
   }
 }
 
-module.exports = { getAllByGameboardId };
+async function getById(objectiveId) {
+  try {
+    return await prisma.objective.findUnique({ where: { id: objectiveId } });
+  } catch (err) {
+    console.error(err);
+    throw new Error("Database: Failed to fetch objective.");
+  }
+}
+
+module.exports = { getAllByGameboardId, getById };

@@ -24,6 +24,16 @@ adminRouter.post(
 adminRouter.put("/gameboard/:gameboardId", adminController.putGameboard);
 adminRouter.delete("/gameboard/:gameboardId", adminController.deleteGameboard);
 
+// DELETE, PUT for objectives
+adminRouter.put(
+  "/gameboard/:gameboardId/objective/:objectiveId",
+  adminController.putObjective
+);
+adminRouter.delete(
+  "/gameboard/:gameboardId/objective/:objectiveId",
+  adminController.deleteObjective
+);
+
 // put gameboard for changes
 
 module.exports = adminRouter;
