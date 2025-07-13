@@ -1,5 +1,14 @@
 const prisma = require("../prisma");
 
+async function countGameboards() {
+  try {
+    return await prisma.gameboard.count();
+  } catch (err) {
+    console.error(err);
+    throw new Error("Database: Failed to fetch gameboards.");
+  }
+}
+
 async function addGameboard(gameboard) {
   try {
     await prisma.gameboard.create({
@@ -17,4 +26,4 @@ async function addGameboard(gameboard) {
   }
 }
 
-module.exports = { addGameboard };
+module.exports = { countGameboards, addGameboard };

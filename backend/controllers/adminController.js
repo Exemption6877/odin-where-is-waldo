@@ -18,4 +18,16 @@ async function postGameboard(req, res) {
   }
 }
 
-module.exports = { postGameboard };
+async function postUpload(req, res) {
+  try {
+    const image = req.files.image[0];
+    const preview = req.files.preview[0];
+
+    console.log(image, preview);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err });
+  }
+}
+
+module.exports = { postGameboard, postUpload };
