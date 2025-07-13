@@ -11,4 +11,17 @@ async function uploadFile(filename, file, bucket) {
   }
 }
 
-module.exports = { uploadFile };
+async function getPublicUrl(filename, bucket) {
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .getPublicUrl(filename);
+
+  if (error) {
+    console.error("Fetch failed:", error);
+    throw error;
+  }
+
+  return data.publicUrl;
+}
+
+module.exports = { uploadFile, getPublicUrl };

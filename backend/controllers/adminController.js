@@ -22,7 +22,7 @@ async function postGameboard(req, res) {
 
 async function postUpload(req, res) {
   try {
-    // const { title, author, source } = req.body;
+    const { title, author, source } = req.body;
 
     const gameboard = req.files.gameboard[0];
     const preview = req.files.preview[0];
@@ -35,16 +35,24 @@ async function postUpload(req, res) {
     const previewPath =
       `gameboard_${nextId}_preview` + path.extname(preview.originalname);
 
-    const gameboardSupabase = await supabase.uploadFile(
+    await supabase.uploadFile(gameboardPath, gameboard.buffer, "gameboards");
+    await supabase.uploadFile(previewPath, preview.buffer, "previews");
+
+    const gameboardURL = await supabase.getPublicUrl(
       gameboardPath,
-      gameboard.buffer,
       "gameboards"
     );
-    const previewSupabase = await supabase.uploadFile(
-      previewPath,
-      preview.buffer,
-      "previews"
-    );
+    const previewURL = await supabase.getPublicUrl(previewPath, "previews");
+
+    const gameboardData = {
+      title: title,
+      image: gameboardURL,
+      preview: previewURL,
+      author: author,
+      source: source,
+    };
+
+    await db.admin.addGameboard(gameboardData);
 
     res.status(200).json({ message: "Files uploaded successfully." });
   } catch (err) {
