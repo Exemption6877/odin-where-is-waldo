@@ -41,6 +41,36 @@ async function postUploadGameboard(req, res) {
   }
 }
 
+async function putGameboard(req, res) {
+  try {
+    const { title, author, source, image, preview } = req.body;
+    const gameboardId = Number(req.params.gameboardId);
+    const prevData = await db.gameboard.getById(gameboardId);
+
+    if (!prevData) {
+      return res.status(404).json({ message: "Gameboard not found." });
+    }
+
+    console.log(prevData);
+
+    const updatedData = {
+      id: gameboardId,
+      title: title || prevData.title,
+      author: author || prevData.author,
+      source: source || prevData.source,
+      image: image || prevData.image,
+      preview: preview || prevData.preview,
+    };
+
+    const result = await db.admin.updateGameboard(updatedData);
+
+    res.status(200).json({ result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Could not change gameboard." });
+  }
+}
+
 async function postUploadObjective(req, res) {
   try {
     // JS sucks
@@ -82,4 +112,4 @@ async function postUploadObjective(req, res) {
   }
 }
 
-module.exports = { postUploadGameboard, postUploadObjective };
+module.exports = { postUploadGameboard, postUploadObjective, putGameboard };

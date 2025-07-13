@@ -21,4 +21,8 @@ adminRouter.post(
   adminController.postUploadObjective
 );
 
+adminRouter.put("/gameboard/:gameboardId", adminController.putGameboard);
+
+// put gameboard for changes
+
 module.exports = adminRouter;

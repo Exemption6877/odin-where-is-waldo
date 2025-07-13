@@ -56,9 +56,28 @@ async function addObjective(objective) {
   }
 }
 
+async function updateGameboard(gameboard) {
+  try {
+    return await prisma.gameboard.update({
+      where: { id: gameboard.id },
+      data: {
+        title: gameboard.title,
+        image: gameboard.image,
+        preview: gameboard.preview,
+        author: gameboard.author,
+        source: gameboard.source,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    throw new Error("Database: Failed to update gameboard.");
+  }
+}
+
 module.exports = {
   countGameboards,
   countObjectivesGameboard,
   addGameboard,
   addObjective,
+  updateGameboard,
 };

@@ -8,6 +8,9 @@ const app = express();
 
 const adminRouter = require("./routers/adminRouter");
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/admin", adminRouter);
 
 app.listen(PORT, () => {
