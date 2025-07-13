@@ -7,10 +7,12 @@ const PORT = process.env.SERVER_PORT || 2000;
 const app = express();
 
 const adminRouter = require("./routers/adminRouter");
+const gameboardRouter = require("./routers/gameboardRouter");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/gameboard", gameboardRouter);
 app.use("/admin", adminRouter);
 
 app.listen(PORT, () => {
