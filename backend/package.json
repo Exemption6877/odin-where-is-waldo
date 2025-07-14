@@ -12,6 +12,7 @@
   "type": "commonjs",
   "dependencies": {
     "@prisma/client": "^6.11.1",
+    "@quixo3/prisma-session-store": "^3.1.13",
     "@supabase/supabase-js": "^2.50.5",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.0",
