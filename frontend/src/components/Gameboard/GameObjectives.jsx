@@ -9,8 +9,9 @@ function GameObjectives({ objectives }) {
     <Draggable nodeRef={nodeRef} bounds="parent">
       <div ref={nodeRef} className={styles.objectivesWrapper}>
         <h3>Objectives</h3>
-        {objectives.map((objective) => (
+        {objectives.map((objective, index) => (
           <div key={objective.id} className={styles.objectiveWrapper}>
+            <p>{index + 1}</p>
             <img src={objective.image} alt={objective.title} />
           </div>
         ))}

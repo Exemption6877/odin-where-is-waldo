@@ -3,9 +3,7 @@ import MouseForm from "./MouseForm";
 
 // Choice list will be a form that will confirm "hit" with backend
 
-function Mouse({ position }) {
-  const test = ["Waldo", "Wizzard"];
-
+function Mouse({ position, options }) {
   return (
     <div
       className={styles.popupContainer}
@@ -15,7 +13,7 @@ function Mouse({ position }) {
       }}
     >
       <div className={styles.circle}></div>
-      <MouseForm options={test} />
+      <MouseForm options={options} />
     </div>
   );
 }

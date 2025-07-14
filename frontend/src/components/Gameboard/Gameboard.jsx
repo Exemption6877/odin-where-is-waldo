@@ -64,7 +64,7 @@ function Gameboard() {
     <div className={styles.gameboardWrapper}>
       <h1>{gameboard.data.title}</h1>
 
-      {showMenu && <Mouse position={mousePos} />}
+      {showMenu && <Mouse position={mousePos} options={objectives.data} />}
       <GameObjectives objectives={objectives.data} />
       <img onClick={gmInteraction} src={gameboard.data.image} alt="gameboard" />
     </div>

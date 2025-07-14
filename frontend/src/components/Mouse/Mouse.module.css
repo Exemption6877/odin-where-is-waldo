@@ -2,16 +2,34 @@
   display: flex;
   flex-direction: row;
   position: fixed;
-  transform: translate(-25%, -45%);
+  transform: translate(-30%, -31%);
+  gap: var(--mouse-gap);
 }
 
 .circle {
   border-radius: 50%;
-  border: 10px brown solid;
+  border: 10px solid var(--accent-color);
   height: 100px;
   width: 100px;
 }
+
 .choiceList {
   display: flex;
   flex-direction: column;
+  background-color: var(--accent-color);
+  padding: var(--mouse-pd);
+  border-radius: 1ch;
+  gap: var(--mouse-gap);
+}
+
+.choiceList > button {
+  border: none;
+  border-radius: 1ch;
+  background: none;
+}
+
+.choiceList > button > img {
+  width: 50px;
+  border-radius: 1ch;
+  cursor: pointer;
 }
