@@ -15,7 +15,10 @@ function Gameboard() {
 
   const [gameFinished, setGameFinished] = useState(false);
 
-  const { data, error, loading } = useFetch(`${API_URL}/gameboard/${gameId}`);
+  const gameboard = useFetch(`${API_URL}/gameboard/${gameId}/`);
+  const objectives = useFetch(
+    `${API_URL}/gameboard/${gameId}/objective/random`
+  );
 
   const endGame = () => {
     // Some logic to tell API to stop timer.
@@ -29,6 +32,7 @@ function Gameboard() {
       (e.clientY - targetElem.top) / targetElem.height,
     ];
 
+    console.log(userInput);
     setShowMenu(true);
     setMousePos({
       x: e.clientX,
@@ -48,15 +52,21 @@ function Gameboard() {
     window.addEventListener("wheel", handleScroll);
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (gameboard.loading) return <p>Loading...</p>;
+  if (gameboard.error) return <p>Error: {gameboard.error.message}</p>;
+  if (objectives.loading) return <p>Loading...</p>;
+  if (objectives.error) return <p>Error: {objectives.error.message}</p>;
 
   return (
     <div className={styles.gameboardWrapper}>
-      <h1>{data.title}</h1>
+      <h1>{gameboard.data.title}</h1>
       {showMenu && <Mouse position={mousePos} />}
-      {/* <GameObjectives objectives={objectives} /> */}
-      <img onClick={getCoordinates} src={data.image} alt="gameboard" />
+      <GameObjectives objectives={objectives.data} />
+      <img
+        onClick={getCoordinates}
+        src={gameboard.data.image}
+        alt="gameboard"
+      />
     </div>
   );
 }
