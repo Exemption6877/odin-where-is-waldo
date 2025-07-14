@@ -1,36 +1,26 @@
 import { Link } from "react-router-dom";
 import styles from "./GameboardChoice.module.css";
+import useFetch from "../../hooks/useFetch";
 
-// Will fetch API for all options here later.
-// Put original link in db as well
+const API_URL = import.meta.env.VITE_API_URL;
 
 function GameboardChoice() {
+  const { data, error, loading } = useFetch(`${API_URL}/gameboard/`);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <ul className={styles.choiceWrapper}>
-      <li>
-        <img src={`/assets/gameboard-preview/gm-1-preview.jpg`} alt="" />
-        <p>
-          By: u/Chekavo{" "}
-          <a href="https://www.reddit.com/r/wimmelbilder/comments/d8lioz/ad_2222_character_poster_oc_finaly_done/">
-            (Link)
-          </a>
-        </p>
-        <Link to="/game/1">Gameboard 1</Link>
-      </li>
-      <li>
-        <img src={`/assets/gameboard-preview/gm-2-preview.jpeg`} alt="" />
-        <p>
-          By: <a href=""></a>
-        </p>
-        <Link>Gameboard 2</Link>
-      </li>
-      <li>
-        <img src={`/assets/gameboard-preview/gm-3-preview.jpeg`} alt="" />
-        <p>
-          By: <a href=""></a>
-        </p>
-        <Link>Gameboard 3</Link>
-      </li>
+      {data.map((gameboard) => (
+        <li key={gameboard.index}>
+          <img src={gameboard.preview} alt={gameboard.title} />
+          <p>
+            By: {gameboard.author} <a href={gameboard.source}>(Link)</a>
+          </p>
+          <Link to={`game/${gameboard.id}`}>{gameboard.title}</Link>
+        </li>
+      ))}
     </ul>
   );
 }
