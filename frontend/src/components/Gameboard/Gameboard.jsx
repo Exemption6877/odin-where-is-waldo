@@ -25,7 +25,10 @@ function Gameboard() {
     const fetchObjectives = async () => {
       try {
         const res = await fetch(
-          `${API_URL}/gameboard/${gameId}/objective/random`
+          `${API_URL}/gameboard/${gameId}/objective/random`,
+          {
+            credentials: "include",
+          }
         );
 
         const data = await res.json();
