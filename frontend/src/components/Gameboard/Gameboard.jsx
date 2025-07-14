@@ -13,12 +13,36 @@ function Gameboard() {
   const [showMenu, setShowMenu] = useState(false);
   const [mousePos, setMousePos] = useState({ x: null, y: null });
 
+  const [objLoading, setObjLoading] = useState(true);
+  const [objError, setObjError] = useState(null);
+  const [objectives, setObjectives] = useState([]);
+
   // const [gameFinished, setGameFinished] = useState(false);
 
   const gameboard = useFetch(`${API_URL}/gameboard/${gameId}/`);
-  const objectives = useFetch(
-    `${API_URL}/gameboard/${gameId}/objective/random`
-  );
+
+  useEffect(() => {
+    const fetchObjectives = async () => {
+      try {
+        const res = await fetch(
+          `${API_URL}/gameboard/${gameId}/objective/random`
+        );
+
+        const data = await res.json();
+        setObjLoading(false);
+        if (!res.ok) {
+          setObjError(data);
+        }
+        console.log(data);
+        setObjectives(data);
+      } catch (err) {
+        setObjLoading(false);
+        setObjError(err);
+      }
+    };
+
+    fetchObjectives();
+  }, [gameId]);
 
   const endGame = () => {
     // Some logic to tell API to stop timer.
@@ -51,8 +75,8 @@ function Gameboard() {
           },
           credentials: "include",
           body: JSON.stringify({
-            userX: mousePos[0],
-            userY: mousePos[1],
+            userX: mousePos.x,
+            userY: mousePos.y,
           }),
         }
       );
@@ -82,21 +106,17 @@ function Gameboard() {
   if (gameboard.loading) return <p>Loading...</p>;
   if (gameboard.error) return <p>Error: {gameboard.error.message}</p>;
 
-  if (objectives.loading) return <p>Loading...</p>;
-  if (objectives.error) return <p>Error: {objectives.error.message}</p>;
+  if (objLoading) return <p>Loading...</p>;
+  if (objError) return <p>Error: {objError.message}</p>;
 
   return (
     <div className={styles.gameboardWrapper}>
       <h1>{gameboard.data.title}</h1>
 
       {showMenu && (
-        <Mouse
-          position={mousePos}
-          options={objectives.data}
-          onClick={handleClick}
-        />
+        <Mouse position={mousePos} options={objectives} onClick={handleClick} />
       )}
-      <GameObjectives objectives={objectives.data} />
+      <GameObjectives objectives={objectives} />
       <img onClick={gmInteraction} src={gameboard.data.image} alt="gameboard" />
     </div>
   );

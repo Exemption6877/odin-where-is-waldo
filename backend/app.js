@@ -22,7 +22,11 @@ app.use(
     secret: "game_is_game",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+    },
   })
 );
 
