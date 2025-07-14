@@ -13,12 +13,12 @@ function GameboardChoice() {
   return (
     <ul className={styles.choiceWrapper}>
       {data.map((gameboard) => (
-        <li key={gameboard.index}>
+        <li key={gameboard.id}>
           <img src={gameboard.preview} alt={gameboard.title} />
           <p>
             By: {gameboard.author} <a href={gameboard.source}>(Link)</a>
           </p>
-          <Link to={`game/${gameboard.id}`}>{gameboard.title}</Link>
+          <Link to={`/game/${gameboard.id}`}>{gameboard.title}</Link>
         </li>
       ))}
     </ul>

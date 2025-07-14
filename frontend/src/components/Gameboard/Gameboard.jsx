@@ -4,6 +4,9 @@ import GameObjectives from "./GameObjectives";
 import SendScore from "./SendScore";
 import Mouse from "../Mouse/Mouse";
 import styles from "./Gameboard.module.css";
+import useFetch from "../../hooks/useFetch";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Gameboard() {
   const { gameId } = useParams();
@@ -11,6 +14,8 @@ function Gameboard() {
   const [mousePos, setMousePos] = useState({ x: null, y: null });
 
   const [gameFinished, setGameFinished] = useState(false);
+
+  const { data, error, loading } = useFetch(`${API_URL}/gameboard/${gameId}`);
 
   const endGame = () => {
     // Some logic to tell API to stop timer.
@@ -29,48 +34,11 @@ function Gameboard() {
       x: e.clientX,
       y: e.clientY,
     });
-    console.log(userInput);
-
-    objectives.forEach((objective) => {
-      if (checkHit(userInput, objective.coordinates)) objective.found = true;
-    });
-  };
-
-  const checkHit = (userInput, objectiveCoordinates) => {
-    return (
-      objectiveCoordinates[0][0] <= userInput[0] &&
-      userInput[0] <= objectiveCoordinates[1][0] &&
-      objectiveCoordinates[0][1] <= userInput[1] &&
-      userInput[1] <= objectiveCoordinates[1][1]
-    );
   };
 
   // object's coords are 4 points
   // I will implement server check on hits
   // Coordinates will not be sent in this object, as its status, only index, name, image
-  const [objectives, setObjectives] = useState([
-    {
-      index: 0,
-      name: "Objective 1",
-      coordinates: [
-        [610, 1430],
-        [755, 1635],
-      ],
-      image: "/assets/objectives/gm-1-1.png",
-      found: false,
-    },
-    {
-      index: 1,
-      name: "Objective 2",
-      coordinates: [
-        [379, 2859],
-        [433, 2938],
-      ],
-      image: "/assets/objectives/gm-1-2.png",
-      found: false,
-    },
-  ]);
-  // map for each...
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,16 +48,15 @@ function Gameboard() {
     window.addEventListener("wheel", handleScroll);
   }, []);
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <div className={styles.gameboardWrapper}>
-      <h1>Gameboard {gameId}</h1>
+      <h1>{data.title}</h1>
       {showMenu && <Mouse position={mousePos} />}
-      <GameObjectives objectives={objectives} />
-      <img
-        onClick={getCoordinates}
-        src={`/assets/gameboards/gameboard_1.jpg`}
-        alt=""
-      />
+      {/* <GameObjectives objectives={objectives} /> */}
+      <img onClick={getCoordinates} src={data.image} alt="gameboard" />
     </div>
   );
 }
