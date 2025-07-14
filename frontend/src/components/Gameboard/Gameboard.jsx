@@ -13,7 +13,7 @@ function Gameboard() {
   const [showMenu, setShowMenu] = useState(false);
   const [mousePos, setMousePos] = useState({ x: null, y: null });
 
-  const [gameFinished, setGameFinished] = useState(false);
+  // const [gameFinished, setGameFinished] = useState(false);
 
   const gameboard = useFetch(`${API_URL}/gameboard/${gameId}/`);
   const objectives = useFetch(
@@ -25,7 +25,7 @@ function Gameboard() {
     // API checks for all found images then returns something that stops the game and sets state.
   };
 
-  const getCoordinates = (e) => {
+  const gmInteraction = (e) => {
     const targetElem = e.target.getBoundingClientRect();
     const userInput = [
       (e.clientX - targetElem.left) / targetElem.width,
@@ -40,33 +40,33 @@ function Gameboard() {
     });
   };
 
+  // handleMouseButtonClick, need adjust api to be able to receive objective id
+
   // object's coords are 4 points
   // I will implement server check on hits
   // Coordinates will not be sent in this object, as its status, only index, name, image
 
+  // Close popup on mousescroll
   useEffect(() => {
     const handleScroll = () => {
       setShowMenu(false);
     };
-
     window.addEventListener("wheel", handleScroll);
   }, []);
 
   if (gameboard.loading) return <p>Loading...</p>;
   if (gameboard.error) return <p>Error: {gameboard.error.message}</p>;
+
   if (objectives.loading) return <p>Loading...</p>;
   if (objectives.error) return <p>Error: {objectives.error.message}</p>;
 
   return (
     <div className={styles.gameboardWrapper}>
       <h1>{gameboard.data.title}</h1>
+
       {showMenu && <Mouse position={mousePos} />}
       <GameObjectives objectives={objectives.data} />
-      <img
-        onClick={getCoordinates}
-        src={gameboard.data.image}
-        alt="gameboard"
-      />
+      <img onClick={gmInteraction} src={gameboard.data.image} alt="gameboard" />
     </div>
   );
 }
