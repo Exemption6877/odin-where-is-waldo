@@ -5,5 +5,6 @@ const objectiveController = require("../controllers/objectiveController");
 const objectiveRouter = Router({ mergeParams: true });
 
 objectiveRouter.get("/random", objectiveController.getRandomObjectives);
+objectiveRouter.post("/check", objectiveController.postCheckObjective);
 
 module.exports = objectiveRouter;
