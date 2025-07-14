@@ -68,7 +68,7 @@ async function postCheckObjective(req, res) {
         req.session.timer.finish
       );
 
-      return res.status(200).json({ status: "Finished", time: time });
+      return res.status(200).json({ status: "Finished", time });
     }
 
     res.status(200).json({ status: isHit ? "found" : "not found" });
