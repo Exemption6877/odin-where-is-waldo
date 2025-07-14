@@ -40,6 +40,31 @@ function Gameboard() {
     });
   };
 
+  const handleClick = async (optionId) => {
+    try {
+      const res = await fetch(
+        `${API_URL}/gameboard/${gameId}/objective/check/${optionId}/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            userX: mousePos[0],
+            userY: mousePos[1],
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // handleMouseButtonClick, need adjust api to be able to receive objective id
 
   // object's coords are 4 points
@@ -64,7 +89,13 @@ function Gameboard() {
     <div className={styles.gameboardWrapper}>
       <h1>{gameboard.data.title}</h1>
 
-      {showMenu && <Mouse position={mousePos} options={objectives.data} />}
+      {showMenu && (
+        <Mouse
+          position={mousePos}
+          options={objectives.data}
+          onClick={handleClick}
+        />
+      )}
       <GameObjectives objectives={objectives.data} />
       <img onClick={gmInteraction} src={gameboard.data.image} alt="gameboard" />
     </div>
