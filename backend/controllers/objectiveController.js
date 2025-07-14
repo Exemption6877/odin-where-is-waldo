@@ -1,3 +1,4 @@
+const { intervalToDuration } = require("date-fns");
 const db = require("../prisma/queries");
 
 async function getRandomObjectives(req, res) {
@@ -19,7 +20,7 @@ async function getRandomObjectives(req, res) {
 
     req.session.objectives = randomObjectives;
     req.session.timer = { start: new Date(), finish: null };
-    
+
     res.status(200).json(randomObjectives);
   } catch (err) {
     console.error(err);
@@ -60,7 +61,14 @@ async function postCheckObjective(req, res) {
 
     if (allFound) {
       req.session.timer.finish = new Date();
-      return res.status(200).json({ status: "Finished" });
+      req.session.completed = true;
+
+      const time = intervalToDuration(
+        new Date(req.session.timer.start),
+        req.session.timer.finish
+      );
+
+      return res.status(200).json({ status: "Finished", time: time });
     }
 
     res.status(200).json({ status: isHit ? "found" : "not found" });
