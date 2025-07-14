@@ -31,6 +31,7 @@ async function getRandomObjectives(req, res) {
 async function postCheckObjective(req, res) {
   try {
     const { userX, userY } = req.body;
+    const objectiveId = Number(req.params.objectiveId);
     const currentObjectives = req.session.objectives;
     let isHit = false;
 
@@ -46,6 +47,7 @@ async function postCheckObjective(req, res) {
       }
 
       if (
+        objective.id === objectiveId &&
         userX >= objective.topLeftX &&
         userY >= objective.topLeftY &&
         userX <= objective.bottomRightX &&
