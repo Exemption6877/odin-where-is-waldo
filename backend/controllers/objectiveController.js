@@ -41,6 +41,16 @@ async function postCheckObjective(req, res) {
         .json({ error: "You do not have objectives currently." });
     }
 
+    const isCurrentObjective = currentObjectives.find(
+      (obj) => obj.id === objectiveId
+    );
+
+    if (!isCurrentObjective) {
+      return res
+        .status(404)
+        .json({ status: "You do not have this objective." });
+    }
+
     for (const objective of currentObjectives) {
       if (objective.found) {
         continue;
