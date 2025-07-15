@@ -1,0 +1,49 @@
+datasource db {
+    provider = "postgresql"
+    url = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Score {
+    id Int @id @default(autoincrement())
+    time DateTime
+    createdAt DateTime @default(now())
+    username  String 
+    gameboard Gameboard @relation(fields: [gameboardId], references: [id])
+    gameboardId Int
+}
+
+model Gameboard {
+    id Int @id @default(autoincrement())
+    title String
+    img_filepath String
+    prev_filepath String
+    image String
+    preview String
+    author String
+    source String
+    scores Score[]
+    objectives Objective[]
+}
+
+model Objective{
+    id Int @id @default(autoincrement())
+    title String
+    image String
+    topLeftX Float
+    topLeftY Float 
+    bottomRightX Float
+    bottomRightY Float
+    gameboard Gameboard @relation(fields: [gameboardId], references: [id])
+    gameboardId Int
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String 
+  expiresAt   DateTime
+}
