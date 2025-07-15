@@ -5,7 +5,7 @@ import useFetch from "../../hooks/useFetch";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function GameboardChoice() {
-  const { data, error, loading } = useFetch(`${API_URL}/gameboard/`);
+  const { data, error, loading } = useFetch(`${API_URL}/gameboard`);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

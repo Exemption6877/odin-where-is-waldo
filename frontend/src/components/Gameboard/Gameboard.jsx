@@ -27,11 +27,18 @@ function Gameboard() {
         const res = await fetch(
           `${API_URL}/gameboard/${gameId}/objective/random`,
           {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
             credentials: "include",
           }
         );
-
+        console.log("Response status:", res.status);
+        console.log("Set-Cookie header:", res.headers.get("Set-Cookie"));
+        console.log("Cookies in browser:", document.cookie);
         const data = await res.json();
+
         setObjLoading(false);
         if (!res.ok) {
           setObjError(data);
@@ -70,20 +77,23 @@ function Gameboard() {
   const handleClick = async (optionId) => {
     try {
       const res = await fetch(
-        `${API_URL}/gameboard/${gameId}/objective/check/${optionId}/`,
+        `${API_URL}/gameboard/${gameId}/objective/check/${optionId}`,
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include",
           body: JSON.stringify({
             userX: mousePos.x,
             userY: mousePos.y,
           }),
         }
       );
-
+      console.log(
+        "Sending POST to:",
+        `${API_URL}/gameboard/${gameId}/objective/check/${optionId}`
+      );
       const data = await res.json();
 
       console.log(data);

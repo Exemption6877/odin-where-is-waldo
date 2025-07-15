@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   position: fixed;
-  transform: translate(-30%, -31%);
+  transform: translate(-50%, -50%);
   gap: var(--mouse-gap);
 }
 
@@ -15,6 +15,8 @@
 
 .choiceList {
   display: flex;
+  position: fixed;
+  transform: translate(150%, 0);
   flex-direction: column;
   background-color: var(--accent-color);
   padding: var(--mouse-pd);
