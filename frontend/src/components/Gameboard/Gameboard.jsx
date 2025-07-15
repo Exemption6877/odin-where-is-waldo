@@ -11,7 +11,12 @@ const API_URL = import.meta.env.VITE_API_URL;
 function Gameboard() {
   const { gameId } = useParams();
   const [showMenu, setShowMenu] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: null, y: null });
+  const [mousePos, setMousePos] = useState({
+    x: null,
+    y: null,
+    normX: null,
+    normY: null,
+  });
 
   const [objLoading, setObjLoading] = useState(true);
   const [objError, setObjError] = useState(null);
@@ -34,9 +39,7 @@ function Gameboard() {
             credentials: "include",
           }
         );
-        console.log("Response status:", res.status);
-        console.log("Set-Cookie header:", res.headers.get("Set-Cookie"));
-        console.log("Cookies in browser:", document.cookie);
+
         const data = await res.json();
 
         setObjLoading(false);
@@ -71,6 +74,8 @@ function Gameboard() {
     setMousePos({
       x: e.clientX,
       y: e.clientY,
+      normX: userInput[0],
+      normY: userInput[1],
     });
   };
 
@@ -85,14 +90,10 @@ function Gameboard() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userX: mousePos.x,
-            userY: mousePos.y,
+            userX: mousePos.normX,
+            userY: mousePos.normY,
           }),
         }
-      );
-      console.log(
-        "Sending POST to:",
-        `${API_URL}/gameboard/${gameId}/objective/check/${optionId}`
       );
       const data = await res.json();
 
