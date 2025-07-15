@@ -32,7 +32,6 @@ app.use(
     }),
   })
 );
-
 const adminRouter = require("./routers/adminRouter");
 app.use("/admin", adminRouter);
 
