@@ -2,6 +2,8 @@
 .vite/
 .vite
 
+.backend/
+
 logs
 *.log
 npm-debug.log*
