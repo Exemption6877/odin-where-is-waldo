@@ -3,9 +3,11 @@ const prisma = require("../prisma");
 async function addScore(score) {
   try {
     return await prisma.score.create({
-      time: score.time,
-      username: score.username,
-      gameboardId: score.gameboardId,
+      data: {
+        time: score.time,
+        username: score.username,
+        gameboardId: score.gameboardId,
+      },
     });
   } catch (err) {
     console.error(err);
