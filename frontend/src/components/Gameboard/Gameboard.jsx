@@ -5,6 +5,7 @@ import SendScore from "./SendScore";
 import Mouse from "../Mouse/Mouse";
 import styles from "./Gameboard.module.css";
 import useFetch from "../../hooks/useFetch";
+import GameTimer from "./GameTimer";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -126,7 +127,7 @@ function Gameboard() {
   return (
     <div className={styles.gameboardWrapper}>
       <h1>{gameboard.data.title}</h1>
-
+      {<GameTimer />}
       {showMenu && (
         <Mouse position={mousePos} options={objectives} onClick={handleClick} />
       )}
