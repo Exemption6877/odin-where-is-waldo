@@ -1,0 +1,37 @@
+.popupContainer {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  gap: var(--mouse-gap);
+}
+
+.circle {
+  border-radius: 50%;
+  border: 10px solid var(--accent-color);
+  height: 100px;
+  width: 100px;
+}
+
+.choiceList {
+  display: flex;
+  position: fixed;
+  transform: translate(150%, 0);
+  flex-direction: column;
+  background-color: var(--accent-color);
+  padding: var(--mouse-pd);
+  border-radius: 1ch;
+  gap: var(--mouse-gap);
+}
+
+.choiceList > button {
+  border: none;
+  border-radius: 1ch;
+  background: none;
+}
+
+.choiceList > button > img {
+  width: 50px;
+  border-radius: 1ch;
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
 # Logs
+
 logs
 *.log
 npm-debug.log*
@@ -6,6 +7,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+.vite/
+.vite
 uploads/
 
 # Diagnostic reports (https://nodejs.org/api/report.html)

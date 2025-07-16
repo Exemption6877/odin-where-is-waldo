@@ -1,0 +1,15 @@
+.gameboardWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.gameboardWrapper > img {
+  width: 90%;
+  height: auto;
+  border: 6px var(--accent-color) solid;
+  border-radius: 2ch;
+}

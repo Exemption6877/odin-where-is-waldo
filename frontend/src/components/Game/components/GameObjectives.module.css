@@ -1,0 +1,44 @@
+.objectivesWrapper {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 0;
+  top: 0;
+  max-width: 400px;
+  background-color: var(--accent-color);
+  justify-content: center;
+  padding: var(--obj-pd);
+  border-radius: 2ch;
+  color: var(--accent-text-color);
+  margin: var(--obj-mg);
+}
+
+.topObjectives {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--obj-gap);
+  margin-bottom: 0.5rem;
+}
+
+.bottomObjectives {
+  display: flex;
+  gap: var(--obj-gap);
+}
+
+.objectiveWrapper {
+  display: flex;
+  max-width: 100px;
+  flex-direction: column;
+  gap: var(--obj-gap);
+  align-items: center;
+}
+
+.objectivesWrapper > h3 {
+  align-self: center;
+}
+
+.objectiveWrapper > img {
+  width: 100px;
+  height: auto;
+}
