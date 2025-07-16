@@ -8,7 +8,7 @@ async function postScore(req, res) {
     const scoreData = {
       time: time,
       username: username,
-      gameboardId,
+      gameboardId: gameboardId,
     };
 
     const result = await db.score.addScore(scoreData);
