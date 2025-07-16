@@ -51,11 +51,13 @@ function Gameboard() {
 
         const data = await res.json();
 
+        console.log(data);
+
         setObjLoading(false);
         if (!res.ok) {
           setObjError(data);
         }
-        console.log(data);
+
         setObjectives(data);
       } catch (err) {
         setObjLoading(false);
@@ -116,10 +118,20 @@ function Gameboard() {
       );
       const data = await res.json();
 
+      if (data.status === "found") {
+        setObjectives((prev) =>
+          prev.map((obj) =>
+            obj.id === optionId ? { ...obj, found: true } : obj
+          )
+        );
+      }
       if (data.status === "Finished") {
         setFinish(true);
 
-        const formattedDate = intervalToDuration({ start: 0, end: data.time });
+        const formattedDate = intervalToDuration({
+          start: 0,
+          end: data.time,
+        });
 
         setScoreData((prev) => ({
           ...prev,
@@ -159,7 +171,6 @@ function Gameboard() {
   return (
     <div className={styles.gameboardWrapper}>
       <h1>{gameboard.data.title}</h1>
-
       {showMenu && (
         <Mouse position={mousePos} options={objectives} onClick={handleClick} />
       )}

@@ -14,12 +14,15 @@ function GameObjectives({ status, objectives }) {
           <GameTimer status={status} />
         </div>
         <div className={styles.bottomObjectives}>
-          {objectives.map((objective, index) => (
-            <div key={objective.id} className={styles.objectiveWrapper}>
-              <p>{index + 1}</p>
-              <img src={objective.image} alt={objective.title} />
-            </div>
-          ))}
+          {objectives.map(
+            (objective, index) =>
+              !objective.found && (
+                <div key={objective.id} className={styles.objectiveWrapper}>
+                  <p>{index + 1}</p>
+                  <img src={objective.image} alt={objective.title} />
+                </div>
+              )
+          )}
         </div>
       </div>
     </Draggable>
