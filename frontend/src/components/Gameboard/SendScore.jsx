@@ -1,26 +1,22 @@
 import styles from "./SendScore.module.css";
 
-function SendScore({ onSubmit, username, setUsername, time }) {
-  // API call that will include time and username
-
+function SendScore({ scoreData, setScoreData, onSubmit }) {
   const handleTyping = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    if (e.target.name === "username") {
+      setScoreData((prev) => ({ ...prev, username: e.target.value }));
+    }
   };
 
   return (
     <form className={styles.scoreForm} onSubmit={onSubmit}>
-      <p>Your time: {time}</p>
+      <p>Your time: {scoreData.time}</p>
       <label htmlFor="username">Your name</label>
       <input
         type="text"
         name="username"
         id="username"
         onChange={handleTyping}
-        value={username}
+        value={scoreData.username}
       />
       <input type="submit" value="Submit score!" />
     </form>

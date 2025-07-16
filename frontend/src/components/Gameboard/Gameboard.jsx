@@ -20,7 +20,10 @@ function Gameboard() {
   });
 
   const [finish, setFinish] = useState(false);
-  const [username, setUsername] = useState("");
+  const [scoreData, setScoreData] = useState({
+    time: null,
+    username: "",
+  });
 
   const [objLoading, setObjLoading] = useState(true);
   const [objError, setObjError] = useState(null);
@@ -70,7 +73,7 @@ function Gameboard() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: username,
+        username: scoreData.username,
       }),
     });
 
@@ -114,6 +117,7 @@ function Gameboard() {
 
       if (data.status === "Finished") {
         setFinish(true);
+        setScoreData((prev) => ({ ...prev, time: data.time }));
       }
 
       console.log(data);
@@ -139,8 +143,8 @@ function Gameboard() {
     return (
       <div className={styles.gameboardWrapper}>
         <SendScore
-          username={username}
-          setUsername={setUsername}
+          scoreData={scoreData}
+          setScoreData={setScoreData}
           onSubmit={endGame}
         />
       </div>
