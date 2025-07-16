@@ -1,0 +1,29 @@
+.scoreForm {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  background-color: var(--accent-color);
+  width: 400px;
+  color: var(--accent-text-color);
+  gap: var(--score-form-gap);
+  padding: var(--obj-pd);
+  align-items: center;
+  border-radius: 1ch;
+  font-weight: 500;
+}
+
+.scoreForm > input {
+  border-radius: 1ch;
+}
+
+.scoreForm > input[type="submit"] {
+  text-decoration: none;
+  color: var(--accent-color);
+  background-color: var(--accent-text-color);
+  padding: var(--btn-pd-height) var(--btn-pd-width);
+  border: none;
+  border-radius: 2ch;
+  margin: var(--btn-mg);
+  font-weight: 600;
+  cursor: pointer;
+}

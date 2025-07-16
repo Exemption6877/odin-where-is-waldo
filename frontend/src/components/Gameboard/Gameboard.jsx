@@ -19,6 +19,8 @@ function Gameboard() {
     normY: null,
   });
 
+  const [finish, setFinish] = useState(false);
+
   const [objLoading, setObjLoading] = useState(true);
   const [objError, setObjError] = useState(null);
   const [objectives, setObjectives] = useState([]);
@@ -59,6 +61,7 @@ function Gameboard() {
   }, [gameId]);
 
   const endGame = () => {
+    console.log("finished!!!");
     // Some logic to tell API to stop timer.
     // API checks for all found images then returns something that stops the game and sets state.
   };
@@ -70,7 +73,6 @@ function Gameboard() {
       (e.clientY - targetElem.top) / targetElem.height,
     ];
 
-    console.log(userInput);
     setShowMenu(true);
     setMousePos({
       x: e.clientX,
@@ -98,19 +100,17 @@ function Gameboard() {
       );
       const data = await res.json();
 
+      if (data.status === "Finished") {
+        setFinish(true);
+        endGame();
+      }
+
       console.log(data);
     } catch (err) {
       console.error(err);
     }
   };
-
-  // handleMouseButtonClick, need adjust api to be able to receive objective id
-
-  // object's coords are 4 points
-  // I will implement server check on hits
-  // Coordinates will not be sent in this object, as its status, only index, name, image
-
-  // Close popup on mousescroll
+  
   useEffect(() => {
     const handleScroll = () => {
       setShowMenu(false);
@@ -124,9 +124,17 @@ function Gameboard() {
   if (objLoading) return <p>Loading...</p>;
   if (objError) return <p>Error: {objError.message}</p>;
 
+  if (finish)
+    return (
+      <div className={styles.gameboardWrapper}>
+        <SendScore />
+      </div>
+    );
+
   return (
     <div className={styles.gameboardWrapper}>
       <h1>{gameboard.data.title}</h1>
+
       {<GameTimer />}
       {showMenu && (
         <Mouse position={mousePos} options={objectives} onClick={handleClick} />
