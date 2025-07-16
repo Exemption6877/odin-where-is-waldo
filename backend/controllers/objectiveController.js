@@ -72,15 +72,11 @@ async function postCheckObjective(req, res) {
     const allFound = currentObjectives.every((obj) => obj.found);
 
     if (allFound) {
-      req.session.timer.finish = new Date();
+      const finishTime = new Date();
       req.session.completed = true;
 
-      const time = intervalToDuration(
-        new Date(req.session.timer.start),
-        req.session.timer.finish
-      );
-
-      return res.status(200).json({ status: "Finished", time });
+      const time = finishTime - new Date(req.session.timer.start);
+      return res.status(200).json({ status: "Finished", time: time });
     }
 
     res.status(200).json({ status: isHit ? "found" : "not found" });
