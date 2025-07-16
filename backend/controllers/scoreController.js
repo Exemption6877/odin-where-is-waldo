@@ -12,7 +12,7 @@ async function postScore(req, res) {
     };
 
     const result = await db.score.addScore(scoreData);
-
+    req.session.destroy();
     res.status(200).json(result);
   } catch (err) {
     console.error(err);
