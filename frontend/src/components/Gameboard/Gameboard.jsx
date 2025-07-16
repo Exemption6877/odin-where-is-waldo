@@ -51,8 +51,6 @@ function Gameboard() {
 
         const data = await res.json();
 
-        console.log(data);
-
         setObjLoading(false);
         if (!res.ok) {
           setObjError(data);
