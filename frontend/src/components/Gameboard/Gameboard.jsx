@@ -20,6 +20,7 @@ function Gameboard() {
   });
 
   const [finish, setFinish] = useState(false);
+  const [username, setUsername] = useState("");
 
   const [objLoading, setObjLoading] = useState(true);
   const [objError, setObjError] = useState(null);
@@ -60,10 +61,21 @@ function Gameboard() {
     fetchObjectives();
   }, [gameId]);
 
-  const endGame = () => {
-    console.log("finished!!!");
-    // Some logic to tell API to stop timer.
-    // API checks for all found images then returns something that stops the game and sets state.
+  const endGame = async (e) => {
+    e.preventDefault();
+    const res = await fetch(`${API_URL}/gameboard/${gameId}/score/`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+      }),
+    });
+
+    const data = await res.json();
+    console.log(data);
   };
 
   const gmInteraction = (e) => {
@@ -102,7 +114,6 @@ function Gameboard() {
 
       if (data.status === "Finished") {
         setFinish(true);
-        endGame();
       }
 
       console.log(data);
@@ -110,7 +121,7 @@ function Gameboard() {
       console.error(err);
     }
   };
-  
+
   useEffect(() => {
     const handleScroll = () => {
       setShowMenu(false);
@@ -127,7 +138,11 @@ function Gameboard() {
   if (finish)
     return (
       <div className={styles.gameboardWrapper}>
-        <SendScore />
+        <SendScore
+          username={username}
+          setUsername={setUsername}
+          onSubmit={endGame}
+        />
       </div>
     );
 
