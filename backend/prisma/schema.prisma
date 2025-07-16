@@ -9,7 +9,7 @@ generator client {
 
 model Score {
     id Int @id @default(autoincrement())
-    time DateTime
+    time Int
     createdAt DateTime @default(now())
     username  String 
     gameboard Gameboard @relation(fields: [gameboardId], references: [id])
