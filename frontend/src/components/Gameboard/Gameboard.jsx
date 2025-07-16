@@ -29,8 +29,6 @@ function Gameboard() {
   const [objError, setObjError] = useState(null);
   const [objectives, setObjectives] = useState([]);
 
-  // const [gameFinished, setGameFinished] = useState(false);
-
   const gameboard = useFetch(`${API_URL}/gameboard/${gameId}/`);
 
   useEffect(() => {
@@ -66,7 +64,7 @@ function Gameboard() {
 
   const endGame = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${API_URL}/gameboard/${gameId}/score/`, {
+    const res = await fetch(`${API_URL}/gameboard/${gameId}/score`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -74,6 +72,7 @@ function Gameboard() {
       },
       body: JSON.stringify({
         username: scoreData.username,
+        time: scoreData.time,
       }),
     });
 
