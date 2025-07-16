@@ -7,7 +7,7 @@ function GameTimer({ status }) {
     seconds: 0,
   });
   useEffect(() => {
-    if (!status) return;
+    if (status) return;
 
     const interval = setInterval(() => {
       setLocalTimer((prev) => {

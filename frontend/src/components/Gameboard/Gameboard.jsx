@@ -5,12 +5,14 @@ import SendScore from "./SendScore";
 import Mouse from "../Mouse/Mouse";
 import styles from "./Gameboard.module.css";
 import useFetch from "../../hooks/useFetch";
-import GameTimer from "./GameTimer";
 import { intervalToDuration } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Gameboard() {
+  const navigate = useNavigate();
+
   const { gameId } = useParams();
   const [showMenu, setShowMenu] = useState(false);
   const [mousePos, setMousePos] = useState({
@@ -66,7 +68,7 @@ function Gameboard() {
 
   const endGame = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${API_URL}/gameboard/${gameId}/score`, {
+    await fetch(`${API_URL}/gameboard/${gameId}/score`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -77,8 +79,7 @@ function Gameboard() {
         time: scoreData.time,
       }),
     });
-
-    const data = await res.json();
+    navigate("/");
   };
 
   const gmInteraction = (e) => {
@@ -125,13 +126,9 @@ function Gameboard() {
           time: data.time,
           format: formattedDate,
         }));
-
-        console.log(formattedDate);
       }
-
-      console.log(data);
     } catch (err) {
-      console.error(err);
+      setObjError(err.message);
     }
   };
 
@@ -163,11 +160,10 @@ function Gameboard() {
     <div className={styles.gameboardWrapper}>
       <h1>{gameboard.data.title}</h1>
 
-      {<GameTimer />}
       {showMenu && (
         <Mouse position={mousePos} options={objectives} onClick={handleClick} />
       )}
-      <GameObjectives objectives={objectives} />
+      <GameObjectives status={finish} objectives={objectives} />
       <img onClick={gmInteraction} src={gameboard.data.image} alt="gameboard" />
     </div>
   );

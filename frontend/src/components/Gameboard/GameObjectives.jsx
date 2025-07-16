@@ -3,7 +3,7 @@ import Draggable from "react-draggable";
 import { useRef } from "react";
 import GameTimer from "./GameTimer";
 
-function GameObjectives({ objectives }) {
+function GameObjectives({ status, objectives }) {
   const nodeRef = useRef(null);
 
   return (
@@ -11,7 +11,7 @@ function GameObjectives({ objectives }) {
       <div ref={nodeRef} className={styles.objectivesWrapper}>
         <div className={styles.topObjectives}>
           <h3>Objectives</h3>
-          <GameTimer />
+          <GameTimer status={status} />
         </div>
         <div className={styles.bottomObjectives}>
           {objectives.map((objective, index) => (

@@ -3,7 +3,6 @@ import styles from "./SendScore.module.css";
 function SendScore({ scoreData, setScoreData, onSubmit }) {
   const handleTyping = (e) => {
     if (e.target.name === "username") {
-      console.log(scoreData);
       setScoreData((prev) => ({ ...prev, username: e.target.value }));
     }
   };
