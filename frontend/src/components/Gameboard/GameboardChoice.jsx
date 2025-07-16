@@ -19,6 +19,7 @@ function GameboardChoice() {
             By: {gameboard.author} <a href={gameboard.source}>(Link)</a>
           </p>
           <Link to={`/game/${gameboard.id}`}>{gameboard.title}</Link>
+          <Link to={`/game/${gameboard.id}/results`}>Results</Link>
         </li>
       ))}
     </ul>
