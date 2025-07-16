@@ -79,7 +79,7 @@ function Gameboard() {
         time: scoreData.time,
       }),
     });
-    navigate("/");
+    navigate(`/game/${gameId}/results`);
   };
 
   const gmInteraction = (e) => {
