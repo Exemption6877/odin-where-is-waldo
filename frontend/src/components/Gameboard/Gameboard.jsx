@@ -6,6 +6,7 @@ import Mouse from "../Mouse/Mouse";
 import styles from "./Gameboard.module.css";
 import useFetch from "../../hooks/useFetch";
 import GameTimer from "./GameTimer";
+import { intervalToDuration } from "date-fns";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -23,6 +24,7 @@ function Gameboard() {
   const [scoreData, setScoreData] = useState({
     time: null,
     username: "",
+    format: null,
   });
 
   const [objLoading, setObjLoading] = useState(true);
@@ -77,7 +79,6 @@ function Gameboard() {
     });
 
     const data = await res.json();
-    console.log(data);
   };
 
   const gmInteraction = (e) => {
@@ -116,7 +117,16 @@ function Gameboard() {
 
       if (data.status === "Finished") {
         setFinish(true);
-        setScoreData((prev) => ({ ...prev, time: data.time }));
+
+        const formattedDate = intervalToDuration({ start: 0, end: data.time });
+
+        setScoreData((prev) => ({
+          ...prev,
+          time: data.time,
+          format: formattedDate,
+        }));
+
+        console.log(formattedDate);
       }
 
       console.log(data);
