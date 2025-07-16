@@ -117,6 +117,7 @@ function Gameboard() {
         }
       );
       const data = await res.json();
+      setShowMenu(false);
 
       if (data.status === "found") {
         setObjectives((prev) =>
