@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import GameObjectives from "./GameObjectives";
-import SendScore from "./SendScore";
-import Mouse from "../Mouse/Mouse";
+import GameObjectives from "./components/GameObjectives";
+import SendScore from "./components/SendScore";
+import Mouse from "./Mouse/Mouse";
 import styles from "./Gameboard.module.css";
 import useFetch from "../../hooks/useFetch";
 import { intervalToDuration } from "date-fns";

@@ -1,8 +1,8 @@
 import App from "./App";
 import GameboardChoice from "./components/Gameboard/GameboardChoice";
-import Greeting from "./components/Greeting";
-import Gameboard from "./components/Gameboard/Gameboard";
-import Results from "./components/results/Results";
+import Greeting from "./components/Greeting/Greeting";
+import Gameboard from "./components/Game/Gameboard";
+import Results from "./components/Results/Results";
 
 const routes = [
   {
